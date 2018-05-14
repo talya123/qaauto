@@ -10,15 +10,15 @@ import static java.lang.Thread.sleep;
 
 public class LinkedinLoginTest {
 
-    @Test
+   @Test
     public void successfulLoginTest() {
         WebDriver webDriver = new FirefoxDriver();
-        webDriver.get("https://www.us.Linkedin.com/");
+       webDriver.get("https://www.Linkedin.com/");
 
-        String actualLoginPageTitle = webDriver.getTitle();
+       String actualLoginPageTitle = webDriver.getTitle();
 
-        //       Assert.assertEquals("a", "b",
-        //           "Probably 'a' is not equal to 'b'");
+               Assert.assertEquals("a", "b",
+                   "Probably 'a' is not equal to 'b'");
         Assert.assertEquals(webDriver.getTitle(),
         "LinkedIn: Войти или зарегистрироваться",
         "Login page Title is wrong");
@@ -49,5 +49,75 @@ public class LinkedinLoginTest {
         Assert.assertNotEquals(actualLoginPageTitle, actualHomePageTitle,
                 "Page title did not change after Sign In");
 
-    }
-}
+        //public class LinkedinLoginTest {
+
+            /*@Test
+            public void unsuccessfulLoginTest() {
+                WebDriver webDriver = new FirefoxDriver();
+                webDriver.get("https://www.Linkedin.com/");
+
+                String actualLoginPageTitle = webDriver.getTitle();
+                WebElement loginField = webDriver.findElement(By.id("login-email"));
+                loginField.sendKeys("nkondratiuk6@gmail.com");
+
+                                WebElement loginButton =
+                        webDriver.findElement(By.xpath("//input[@type='submit' and contains(@value, 'Войти')]"));
+
+                loginButton.click();
+
+                Assert.assertTrue(loginButton.isDisplayed(),
+                        "Login button is not displayed");
+
+                loginField.clear();
+
+                WebElement passwordField = webDriver.findElement(By.id("login-password"));
+                passwordField.sendKeys("0987qwert");
+                loginButton.click();
+
+                Assert.assertTrue(loginButton.isDisplayed(),
+                        "Login button is not displayed");
+
+                passwordField.clear();
+
+                loginField.sendKeys("nkondratiuk6");
+                loginButton.click();
+
+                Assert.assertTrue(loginButton.isDisplayed(),
+                        "Login button is not displayed");
+                loginField.clear();
+
+                loginField.sendKeys("nkondratiuk6@gmail.com");
+                passwordField.sendKeys("    ");
+                loginButton.click();
+                Assert.assertTrue(loginButton.isDisplayed(),
+                        "Login button is not displayed");
+                loginField.clear();
+                passwordField.clear();
+
+                loginButton.click();
+                Assert.assertTrue(loginButton.isDisplayed(),
+                        "Login button is not displayed");
+
+
+                loginField.sendKeys("nkondratiuk6@gmail.com");
+                passwordField.sendKeys("a");
+                loginButton.click();
+
+                        WebElement errorMessage =
+                        webDriver.findElement (By.cssSelector(".error"));
+                                Assert.assertTrue(errorMessage.isDisplayed(),
+                        "Error message is not displayed");
+
+
+
+
+
+
+
+
+*/
+            }
+        }
+
+
+
