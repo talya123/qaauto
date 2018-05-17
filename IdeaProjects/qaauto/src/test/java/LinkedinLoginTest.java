@@ -4,50 +4,45 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static java.lang.Thread.sleep;
 
 public class LinkedinLoginTest {
+    WebDriver webDriver;
+
+    @BeforeMethod
+    public void before() {
+        webDriver = new FirefoxDriver();
+        webDriver.get("https://www.linkedin.com/");
+    }
 
    @Test
     public void successfulLoginTest() {
-        WebDriver webDriver = new FirefoxDriver();
-       webDriver.get("https://www.Linkedin.com/");
+       LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
 
-       String actualLoginPageTitle = webDriver.getTitle();
+       Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
+       "LinkedIn: Войти или зарегистрироваться",
+                       "Login page Title is wrong");
 
-               Assert.assertEquals("a", "b",
-                   "Probably 'a' is not equal to 'b'");
-        Assert.assertEquals(webDriver.getTitle(),
-        "LinkedIn: Войти или зарегистрироваться",
-        "Login page Title is wrong");
-        //}
-        WebElement loginField = webDriver.findElement(By.id("login-email"));
-        loginField.sendKeys("natdi2728@gmail.com");
+       Assert.assertTrue(linkedinLoginPage.isLoginButtonDisplayed(),
+               "Login button is not displayed");
 
-        WebElement passwordField = webDriver.findElement(By.id("login-password"));
-        passwordField.sendKeys("nata0987");
 
-        //sleep(1000);
-        WebElement loginButton =
-                webDriver.findElement(By.xpath("//input[@type='submit' and contains(@value, 'Войти')]"));
+       linkedinLoginPage.login("natdi2728@gmail.com", "nata0987");
 
-        Assert.assertTrue(loginButton.isDisplayed(),
-                "Login button is not displayed");
+       LinkedinHomePage linkedinHomePage = new LinkedinHomePage (webDriver);
 
-        loginButton.click();
-        Assert.assertTrue(webDriver.getTitle().contains("LinkedIn"),
-                "Home page URL is wrong");
-
-        Assert.assertEquals(webDriver.getCurrentUrl(),
+       Assert.assertEquals(linkedinHomePage.getCurrentUrl(),
                 "https://www.linkedin.com/feed/",
-                "Home page URL is wrong");
+               "Home page URL is wrong");
 
-        String actualHomePageTitle = webDriver.getTitle();
+       Assert.assertTrue(linkedinHomePage.getCurrentTitle().contains("LinkedIn"),
+                "Home page url is wrong.");
 
-        Assert.assertNotEquals(actualLoginPageTitle, actualHomePageTitle,
-                "Page title did not change after Sign In");
+
 
         //public class LinkedinLoginTest {
 
@@ -108,16 +103,53 @@ public class LinkedinLoginTest {
                                 Assert.assertTrue(errorMessage.isDisplayed(),
                         "Error message is not displayed");
 
-
-
-
-
-
-
-
 */
-            }
-        }
+           // }
+
+
+     //}
+}
+
+     @Test
+    public void negativeLoginTest() throws InterruptedException {
+         String actualLoginPageTitle = webDriver.getTitle();
+
+         // Assert.assertEquals("a", "b",
+         //"Probably 'a' is not equal to 'b'");
+         Assert.assertEquals(actualLoginPageTitle,
+                 "LinkedIn: Войти или зарегистрироваться",
+                 "Login page Title is wrong");
+
+         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
+         Assert.assertTrue(linkedinLoginPage.isLoginButtonDisplayed(),
+                 "Login button is not displayed");
+         linkedinLoginPage.login("natdi2728@gmail.com", "1");
+
+
+                sleep(2000);
+
+        String currentPageUrl = webDriver.getCurrentUrl();
+        String currentPageTitle = webDriver.getTitle();
+
+        Assert.assertEquals(currentPageUrl,
+                "https://www.linkedin.com/uas/login-submit",
+                "Login-Submit page URL is wrong");
+        Assert.assertEquals(currentPageTitle,
+                "Войти в LinkedIn",
+                "Login-Submit page Title is wrong");
+        WebElement errorMessage = webDriver.findElement(By.xpath("//div[@role='alert']"));
+        Assert.assertEquals(errorMessage.getText(),
+        "При заполнении формы были допущены ошибки. Проверьте и исправьте отмеченные поля.",
+        "Wrong error message test is displayed");
+
+    }
+    @AfterMethod
+    public void after() {
+        webDriver.close();
+
+    }
+
+}
 
 
 
