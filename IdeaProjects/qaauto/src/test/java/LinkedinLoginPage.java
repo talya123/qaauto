@@ -23,8 +23,8 @@ public class LinkedinLoginPage {
     }
 
     public void login(String email, String password) {
-        loginField.sendKeys("email");
-        passwordField.sendKeys("password");
+        loginField.sendKeys(email);
+        passwordField.sendKeys(password);
         loginButton.click();
 
     }
