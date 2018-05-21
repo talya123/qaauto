@@ -1,25 +1,32 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static java.lang.Thread.sleep;
 
-public class LinkedinLoginTest {
+public class LinkedinLoginTest extends LinkedinBasePage  {
     WebDriver webDriver;
 
     @BeforeMethod
     public void before() {
         webDriver = new FirefoxDriver();
         webDriver.get("https://www.linkedin.com/");
+            }
+
+    @DataProvider
+    public Object[][] validDataProvider() {
+        return new Object[][]{
+                { "nkondratiuk6@gmail.com", "0987qwert" },
+                { "NKONDRATIUK6@GMAIL.COM", "0987qwert" },
+
+        };
     }
 
-    @Test
-    public void successfulLoginTest() {
+    @Test(dataProvider = "validDataProvider")
+    public void successfulLoginTest(String email, String password) {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
 
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
@@ -30,7 +37,7 @@ public class LinkedinLoginTest {
                 "Login button is not displayed");
 
 
-        linkedinLoginPage.login("natdi2728@gmail.com", "nata0987");
+        linkedinLoginPage.login(email, password);
 
         LinkedinHomePage linkedinHomePage = new LinkedinHomePage(webDriver);
 
@@ -137,7 +144,7 @@ public class LinkedinLoginTest {
     }
 
      @Test
-    public void negativeLoginTest() {
+    public void negativeReturnedToLoginTest()  {
          LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
 
          Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
@@ -163,6 +170,10 @@ public class LinkedinLoginTest {
                 Assert.assertEquals(linkedinErrorMessagePage.errorMessage.getText(),
         "При заполнении формы были допущены ошибки. Проверьте и исправьте отмеченные поля.",
         "Wrong error message test is displayed");
+                Assert.assertTrue(linkedinErrorMessagePage.isPageLoaded(),
+                        "Login-Submit page is not loaded.");
+
+
 
     }
     @AfterMethod
@@ -174,4 +185,6 @@ public class LinkedinLoginTest {
 }
 
 
+
+//testng dataprovider example
 
