@@ -25,6 +25,28 @@ public class LinkedinLoginTest   {
         };
     }
 
+    @DataProvider
+    public Object[][] invalidDataProvider() {
+        return new Object[][]{
+                { "nkondratiuk6@gmail.com", "" },
+                { "", "0987qwert" },
+                { "nkondratiuk6@gmail.com", "    " },
+
+
+        };
+    }
+
+    @DataProvider
+    public Object[][] invalidDataLoginSubmitPageProvider() {
+        return new Object[][]{
+                { "nkondratiuk6", "0987qwert" },
+                { "nkondratiuk6@gmail.com", "1" },
+
+
+        };
+    }
+
+
     @Test(dataProvider = "validDataProvider")
     public void successfulLoginTest(String email, String password) {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
@@ -51,8 +73,8 @@ public class LinkedinLoginTest   {
 
 
 
-    @Test
-    public void negativeLoginTestWithoutPassword() {
+    @Test (dataProvider ="invalidDataProvider")
+    public void negativeLoginTest(String email, String password) {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
 
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
@@ -63,7 +85,7 @@ public class LinkedinLoginTest   {
                 "Login button is not displayed");
 
 
-        linkedinLoginPage.login("nkondratiuk6@gmail.com", "");
+        linkedinLoginPage.login(email, password);
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
                 "LinkedIn: Войти или зарегистрироваться",
                 "Login page Title is wrong");
@@ -72,79 +94,8 @@ public class LinkedinLoginTest   {
                 "Login button is not displayed");
     }
 
-        @Test
-        public void negativeLoginTestWithoutEmail() {
-            LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-
-            Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
-                    "LinkedIn: Войти или зарегистрироваться",
-                    "Login page Title is wrong");
-
-            Assert.assertTrue(linkedinLoginPage.isLoginButtonDisplayed(),
-                    "Login button is not displayed");
-
-
-            linkedinLoginPage.login("", "0987qwert");
-            Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
-                    "LinkedIn: Войти или зарегистрироваться",
-                    "Login page Title is wrong");
-
-            Assert.assertTrue(linkedinLoginPage.isLoginButtonDisplayed(),
-                    "Login button is not displayed");
-        }
-
-    @Test
-    public void negativeLoginTestInvalidEmail() {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-
-        Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
-                "LinkedIn: Войти или зарегистрироваться",
-                "Login page Title is wrong");
-
-        Assert.assertTrue(linkedinLoginPage.isLoginButtonDisplayed(),
-                "Login button is not displayed");
-
-
-        linkedinLoginPage.login("nkondratiuk6", "0987qwert");
-
-
-        LinkedinErrorMessagePage linkedinErrorMessagePage = new LinkedinErrorMessagePage (webDriver);
-
-        Assert.assertEquals(linkedinErrorMessagePage.getCurrentUrl(),
-                "https://www.linkedin.com/uas/login-submit",
-                "Login-Submit page URL is wrong");
-        Assert.assertEquals(linkedinErrorMessagePage.getCurrentTitle(),
-                "Войти в LinkedIn",
-                "Login-Submit page Title is wrong");
-        Assert.assertEquals(linkedinErrorMessagePage.getErrorMessageText(),
-                "При заполнении формы были допущены ошибки. Проверьте и исправьте отмеченные поля.",
-                "Wrong error message test is displayed");
-
-    }
-
-    @Test
-    public void negativeLoginTestPasswordWithOnlySpaces() {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-
-        Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
-                "LinkedIn: Войти или зарегистрироваться",
-                "Login page Title is wrong");
-
-        Assert.assertTrue(linkedinLoginPage.isLoginButtonDisplayed(),
-                "Login button is not displayed");
-
-
-        linkedinLoginPage.login("nkondratiuk6", "    ");
-        Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
-                "LinkedIn: Войти или зарегистрироваться",
-                "Login page Title is wrong");
-
-        Assert.assertTrue(linkedinLoginPage.isLoginButtonDisplayed(),
-                "Login button is not displayed");
-    }
-
-     @Test
-    public void negativeReturnedToLoginTest()  {
+         @Test (dataProvider = "invalidDataLoginSubmitPageProvider")
+    public void negativeReturnedToLoginTest(String email, String password)  {
          LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
 
          Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
@@ -155,7 +106,7 @@ public class LinkedinLoginTest   {
                  "Login button is not displayed");
 
 
-         linkedinLoginPage.login("natdi2728@gmail.com", "1");
+         linkedinLoginPage.login(email, password);
 
 
 
