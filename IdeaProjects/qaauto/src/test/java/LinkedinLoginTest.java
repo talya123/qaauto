@@ -7,7 +7,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 
-public class LinkedinLoginTest extends LinkedinBasePage  {
+public class LinkedinLoginTest   {
     WebDriver webDriver;
 
     @BeforeMethod
@@ -116,7 +116,7 @@ public class LinkedinLoginTest extends LinkedinBasePage  {
         Assert.assertEquals(linkedinErrorMessagePage.getCurrentTitle(),
                 "Войти в LinkedIn",
                 "Login-Submit page Title is wrong");
-        Assert.assertEquals(linkedinErrorMessagePage.errorMessage.getText(),
+        Assert.assertEquals(linkedinErrorMessagePage.getErrorMessageText(),
                 "При заполнении формы были допущены ошибки. Проверьте и исправьте отмеченные поля.",
                 "Wrong error message test is displayed");
 
@@ -167,7 +167,7 @@ public class LinkedinLoginTest extends LinkedinBasePage  {
         Assert.assertEquals(linkedinErrorMessagePage.getCurrentTitle(),
                 "Войти в LinkedIn",
                 "Login-Submit page Title is wrong");
-                Assert.assertEquals(linkedinErrorMessagePage.errorMessage.getText(),
+                Assert.assertEquals(linkedinErrorMessagePage.getErrorMessageText(),
         "При заполнении формы были допущены ошибки. Проверьте и исправьте отмеченные поля.",
         "Wrong error message test is displayed");
                 Assert.assertTrue(linkedinErrorMessagePage.isPageLoaded(),

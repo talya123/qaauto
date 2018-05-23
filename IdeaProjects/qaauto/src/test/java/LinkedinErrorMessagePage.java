@@ -3,20 +3,26 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class LinkedinErrorMessagePage extends LinkedinBasePage {
-    WebElement errorMessage;
+    private WebElement errorMessage;
     private  WebElement  emailField;
 
     public LinkedinErrorMessagePage(WebDriver webDriver) {
-        this.webDriver = webDriver;
-        errorElement();
+        super(webDriver);
+        initElements();
     }
 
 
-    public void errorElement() {
+    public void initElements() {
         emailField = webDriver.findElement(By.id("session_key-login"));
         errorMessage = webDriver.findElement(By.xpath("//div[@role='alert']"));
 
           }
+
+
+    public String getErrorMessageText() {
+        return errorMessage.getText();
+
+    }
 
           public boolean isPageLoaded() {
         return emailField.isDisplayed();
@@ -24,13 +30,5 @@ public class LinkedinErrorMessagePage extends LinkedinBasePage {
           }
 
 }
-//или
-//public class LinkedinErrorMessagePage {
 
-//private WebElement errorMessage;
-
-
-//public String getErrorMessageText() {
-//return errorMessage.getText();
-//}
 

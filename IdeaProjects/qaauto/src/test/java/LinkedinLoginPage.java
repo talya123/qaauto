@@ -4,7 +4,7 @@ import org.openqa.selenium.WebElement;
 
 public class LinkedinLoginPage extends LinkedinBasePage {
 
-    private  WebElement loginField;
+    private WebElement loginField;
     private WebElement passwordField;
     private WebElement loginButton;
 
@@ -28,9 +28,10 @@ public class LinkedinLoginPage extends LinkedinBasePage {
 
     }
 
-    public boolean isLoginButtonDisplayed () {
+    public boolean isLoginButtonDisplayed() {
         return loginButton.isDisplayed();
 
     }
+}
 
 
