@@ -31,13 +31,14 @@ public class LinkedinLoginTest   {
                 { "nkondratiuk6@gmail.com", "" },
                 { "", "0987qwert" },
                 { "nkondratiuk6@gmail.com", "    " },
+                { "", "" },
 
 
         };
     }
 
     @DataProvider
-    public Object[][] invalidDataLoginSubmitPageProvider() {
+    public Object[][] invalidDataProviderLoginSubmitPage() {
         return new Object[][]{
                 { "nkondratiuk6", "0987qwert" },
                 { "nkondratiuk6@gmail.com", "1" },
@@ -94,7 +95,7 @@ public class LinkedinLoginTest   {
                 "Login button is not displayed");
     }
 
-         @Test (dataProvider = "invalidDataLoginSubmitPageProvider")
+         @Test (dataProvider = "invalidDataProviderLoginSubmitPage")
     public void negativeReturnedToLoginTest(String email, String password)  {
          LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
 
