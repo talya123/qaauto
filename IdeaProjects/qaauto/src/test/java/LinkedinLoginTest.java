@@ -20,7 +20,7 @@ public class LinkedinLoginTest   {
     public Object[][] validDataProvider() {
         return new Object[][]{
                 { "nkondratiuk6@gmail.com", "0987qwert" },
-                { "NKONDRATIUK6@GMAIL.COM", "0987qwert" },
+               // { "NKONDRATIUK6@GMAIL.COM", "0987qwert" },
 
         };
     }
@@ -60,9 +60,8 @@ public class LinkedinLoginTest   {
                 "Login button is not displayed");
 
 
-        linkedinLoginPage.login(email, password);
-
-        LinkedinHomePage linkedinHomePage = new LinkedinHomePage(webDriver);
+        LinkedinHomePage linkedinHomePage = linkedinLoginPage.login(email, password);
+       // LinkedinHomePage linkedinHomePage = new LinkedinHomePage(webDriver);
 
         Assert.assertEquals(linkedinHomePage.getCurrentUrl(),
                 "https://www.linkedin.com/feed/",
