@@ -21,20 +21,34 @@ public class LinkedinLoginPage extends LinkedinBasePage {
         PageFactory.initElements(webDriver, this);
 
     }
+    @Override
+    public boolean isPageLoaded() {
+       return loginButton.isDisplayed();
+    }
 
 
+    //public LinkedinHomePage login(String email, String password) {
+        //loginField.sendKeys(email);
+        //passwordField.sendKeys(password);
+       // loginButton.click();
+       // return PageFactory.initElements(webDriver, LinkedinHomePage.class);
+        // or return new LinkedinHomePage(webDriver);
 
-    public LinkedinHomePage login(String email, String password) {
+    //}
+
+    public <T> T login(String email, String password) {
         loginField.sendKeys(email);
         passwordField.sendKeys(password);
         loginButton.click();
-        return PageFactory.initElements(webDriver, LinkedinHomePage.class);
-
+        if (getCurrentUrl().contains("/feed")) {
+            return (T) new LinkedinHomePage(webDriver);
+        }
+        if (getCurrentUrl().contains("/login-submit")) {
+            return (T) new LinkedinErrorMessagePage(webDriver);
     }
-
-    public boolean isLoginButtonDisplayed() {
-        return loginButton.isDisplayed();
-
+    else {
+            return (T) this;
+        }
     }
 }
 
