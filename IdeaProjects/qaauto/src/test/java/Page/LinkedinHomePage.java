@@ -1,3 +1,5 @@
+package Page;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,6 +10,10 @@ public class LinkedinHomePage extends LinkedinBasePage {
 
     @FindBy(xpath = "//li[@id='profile-nav-item']")
     private WebElement profileNavItem;
+
+    @FindBy(xpath = "//input[@placeholder='Search']")
+    private WebElement searchField;
+
 
 
     public LinkedinHomePage(WebDriver webDriver) {
@@ -20,4 +26,12 @@ public class LinkedinHomePage extends LinkedinBasePage {
     }
 
 
+
+
+    public LinkedinSearchResults search(String searchTerm) {
+        searchField.sendKeys(searchTerm);
+        searchField.submit();
+        return new LinkedinSearchResults(webDriver);
+    }
 }
+

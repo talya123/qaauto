@@ -1,3 +1,6 @@
+package Test;
+
+import Page.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
@@ -6,24 +9,24 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.concurrent.TimeUnit;
 
+public class LinkedinLoginTest extends LinkedinBaseTest   {
 
-public class LinkedinLoginTest   {
-    WebDriver webDriver;
-
-    @BeforeMethod
-    public void before() {
-        webDriver = new FirefoxDriver();
-        //webDriver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
-        webDriver.get("https://www.linkedin.com/");
-            }
 
     @DataProvider
     public Object[][] validDataProvider() {
         return new Object[][]{
                 { "nkondratiuk6@gmail.com", "0987qwert" },
                // { "NKONDRATIUK6@GMAIL.COM", "0987qwert" },
+
+        };
+    }
+
+    @DataProvider
+    public Object[][] forgotPasswordDataProvider() {
+        return new Object[][]{
+                { "nkondratiuk6@gmail.com" },
+
 
         };
     }
@@ -53,7 +56,6 @@ public class LinkedinLoginTest   {
 
     @Test(dataProvider = "validDataProvider")
     public void successfulLoginTest(String email, String password) {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
 
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
                 "LinkedIn: Войти или зарегистрироваться",
@@ -64,7 +66,7 @@ public class LinkedinLoginTest   {
 
 
         LinkedinHomePage linkedinHomePage = linkedinLoginPage.login(email, password);
-       // LinkedinHomePage linkedinHomePage = new LinkedinHomePage(webDriver);
+       // Page.LinkedinHomePage linkedinHomePage = new Page.LinkedinHomePage(webDriver);
 
         Assert.assertEquals(linkedinHomePage.getCurrentUrl(),
                 "https://www.linkedin.com/feed/",
@@ -78,7 +80,6 @@ public class LinkedinLoginTest   {
 
     @Test (dataProvider ="invalidDataProvider")
     public void negativeLoginTest(String email, String password) {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
 
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
                 "LinkedIn: Войти или зарегистрироваться",
@@ -99,7 +100,6 @@ public class LinkedinLoginTest   {
 
          @Test (dataProvider = "invalidDataProviderLoginSubmitPage")
     public void negativeReturnedToLoginTest(String email, String password)  {
-         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
 
          Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
                  "LinkedIn: Войти или зарегистрироваться",
@@ -113,7 +113,7 @@ public class LinkedinLoginTest   {
 
 
              LinkedinErrorMessagePage linkedinErrorMessagePage = linkedinLoginPage.login(email, password);
-       //LinkedinErrorMessagePage linkedinErrorMessagePage = new LinkedinErrorMessagePage (webDriver);
+       //Page.LinkedinErrorMessagePage linkedinErrorMessagePage = new Page.LinkedinErrorMessagePage (webDriver);
 
         Assert.assertEquals(linkedinErrorMessagePage.getCurrentUrl(),
                 "https://www.linkedin.com/uas/login-submit",
@@ -126,6 +126,44 @@ public class LinkedinLoginTest   {
         "Wrong error message test is displayed");
                 Assert.assertTrue(linkedinErrorMessagePage.isPageLoaded(),
                         "Login-Submit page is not loaded.");
+
+
+
+    }
+        @Test(dataProvider = "forgotPasswordDataProvider")
+        public void successfulResetPasswordTest(String email) {
+
+        Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
+                "LinkedIn: Войти или зарегистрироваться",
+                "Login page Title is wrong");
+
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(),
+                "Login page is not loaded");
+
+
+       LinkedinResetPassword linkedinResetPassword = new LinkedinResetPassword(webDriver);
+
+        linkedinLoginPage.getForgotPasswordLink();
+
+        Assert.assertEquals(linkedinResetPassword.getCurrentUrl(),
+                "https://www.linkedin.com/uas/request-password-reset?trk=uno-reg-guest-home-forgot-password",
+                "Reset password page URL is wrong");
+
+        Assert.assertTrue(linkedinResetPassword.getCurrentTitle().contains("LinkedIn"),
+                "Reset password page url is wrong.");
+
+        linkedinResetPassword.reset(email);
+
+
+        LinkedinCheckpointResetPasswordPage linkedinCheckpointResetPasswordPage = new LinkedinCheckpointResetPasswordPage(webDriver);
+
+        Assert.assertEquals(linkedinCheckpointResetPasswordPage.getCurrentUrl(),
+                "https://www.linkedin.com/checkpoint/rp/request-password-reset-submit",
+                "Page URL is wrong");
+
+        Assert.assertTrue(linkedinCheckpointResetPasswordPage.isPageLoaded(),
+                "Page is not loaded.");
+
 
 
 

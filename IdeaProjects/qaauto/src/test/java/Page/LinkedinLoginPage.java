@@ -1,4 +1,8 @@
-import org.openqa.selenium.By;
+package Page;
+
+import Page.LinkedinBasePage;
+import Page.LinkedinErrorMessagePage;
+import Page.LinkedinHomePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -6,33 +10,41 @@ import org.openqa.selenium.support.PageFactory;
 
 public class LinkedinLoginPage extends LinkedinBasePage {
 
-    @FindBy (id = "login-email")
+    @FindBy(id = "login-email")
     private WebElement loginField;
 
-    @FindBy (id = "login-password")
+    @FindBy(id = "login-password")
     private WebElement passwordField;
 
-    @FindBy (id = "login-submit")
+    @FindBy(id = "login-submit")
     private WebElement loginButton;
+
+    @FindBy(xpath = "//a[@class='link-forgot-password']")
+    private WebElement forgotPasswordLink;
+
 
     public LinkedinLoginPage(WebDriver webDriver) {
 
         super(webDriver);
         PageFactory.initElements(webDriver, this);
-
     }
-    @Override
+
     public boolean isPageLoaded() {
-       return loginButton.isDisplayed();
+
+        return loginButton.isDisplayed();
+    }
+
+    public void getForgotPasswordLink() {
+        forgotPasswordLink.click();
     }
 
 
-    //public LinkedinHomePage login(String email, String password) {
-        //loginField.sendKeys(email);
-        //passwordField.sendKeys(password);
-       // loginButton.click();
-       // return PageFactory.initElements(webDriver, LinkedinHomePage.class);
-        // or return new LinkedinHomePage(webDriver);
+    //public Page.LinkedinHomePage login(String email, String password) {
+    // loginField.sendKeys(email);
+    //passwordField.sendKeys(password);
+    //loginButton.click();
+    //return PageFactory.initElements(webDriver, Page.LinkedinHomePage.class);
+    // or return new Page.LinkedinHomePage(webDriver);
 
     //}
 
@@ -45,11 +57,30 @@ public class LinkedinLoginPage extends LinkedinBasePage {
         }
         if (getCurrentUrl().contains("/login-submit")) {
             return (T) new LinkedinErrorMessagePage(webDriver);
-    }
-    else {
+        } else {
             return (T) this;
         }
     }
-}
+
+
+    public LinkedinRequestPasswordResetPage clickOnForgotPasswordLink() {
+        forgotPasswordLink.click();
+        return new LinkedinRequestPasswordResetPage(webDriver);
+        }
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
