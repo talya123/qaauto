@@ -1,12 +1,11 @@
 package page;
 
-import Page.LinkedinHomePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LinkedinSuccessfulPasswordResetPage extends LinkedinBasePage{
+public class LinkedinSuccessfulPasswordResetPage extends LinkedinBasePage {
 
     @FindBy(xpath = "//button[text()='Go to homepage']")
     private WebElement goToHomepageButton;

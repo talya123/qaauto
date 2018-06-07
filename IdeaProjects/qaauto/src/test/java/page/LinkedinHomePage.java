@@ -1,5 +1,6 @@
-package Page;
+package page;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,24 +15,20 @@ public class LinkedinHomePage extends LinkedinBasePage {
     @FindBy(xpath = "//input[@placeholder='Search']")
     private WebElement searchField;
 
-
-
     public LinkedinHomePage(WebDriver webDriver) {
         super(webDriver);
         PageFactory.initElements(webDriver, this);
     }
 
-    boolean isPageLoaded() {
+    public boolean isPageLoaded() {
         return profileNavItem.isDisplayed();
     }
 
-
-
-
-    public LinkedinSearchResults search(String searchTerm) {
+    public LinkedinSearchResultsPage search(String searchTerm) {
         searchField.sendKeys(searchTerm);
-        searchField.submit();
-        return new LinkedinSearchResults(webDriver);
+        searchField.sendKeys(Keys.RETURN);
+        return new LinkedinSearchResultsPage(webDriver);
+
     }
 }
 

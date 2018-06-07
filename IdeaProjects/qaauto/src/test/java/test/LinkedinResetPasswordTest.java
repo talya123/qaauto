@@ -1,6 +1,6 @@
-package Test;
+package test;
 
-import Page.LinkedinRequestPasswordResetPage;
+import page.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -17,7 +17,7 @@ public class LinkedinResetPasswordTest extends LinkedinBaseTest {
                 "Request Password Reset page is not loaded");
 
 
-        LinkedinRequestPasswordSubmitPage linkedinRequestPasswordSubmitPage = linkedinRequestPasswordResetPage.submitUserEmail(userEmail);
+        LinkedinRequestPasswordResetSubmitPage linkedinRequestPasswordResetSubmitPage = linkedinRequestPasswordResetPage.submitUserEmail(userEmail);
 
         Assert.assertTrue(linkedinRequestPasswordResetSubmitPage.isPageLoaded(),
                 "RequestPasswordResetSubmit page url is not loaded.");
@@ -27,18 +27,13 @@ public class LinkedinResetPasswordTest extends LinkedinBaseTest {
         Assert.assertTrue(linkedinSetNewPasswordPage.isPageLoaded(),
                 "SetNewPassword page is not loaded.");
 
-        linkedinSuccessfulPasswordPage.submitNewPassword(newUserPassword);
-        Assert.assertTrue(linkedinSuccessfulPasswordPage.isPageLoaded(),
+        LinkedinSuccessfulPasswordResetPage linkedinSuccessfulPasswordResetPage = linkedinSetNewPasswordPage.submitNewPassword(newUserPassword);
+        Assert.assertTrue(linkedinSetNewPasswordPage.isPageLoaded(),
                 "SuccessfulPassword page is not loaded.");
 
         LinkedinHomePage linkedinHomePage =
                 linkedinSuccessfulPasswordResetPage.clickOnGoToHomeButton();
         Assert.assertTrue(linkedinHomePage.isPageLoaded(),
                 "HomePage is not loaded.");
-
-
-
-
-
     }
 }

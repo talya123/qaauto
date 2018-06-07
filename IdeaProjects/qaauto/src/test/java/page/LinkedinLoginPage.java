@@ -1,8 +1,4 @@
-package Page;
-
-import Page.LinkedinBasePage;
-import Page.LinkedinErrorMessagePage;
-import Page.LinkedinHomePage;
+package page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
